@@ -348,7 +348,7 @@ class App(object):
         self.args = args
         self.timeout = Timeout(tm_timeout, self.timeout_exit)
         self.job = JobBinary(args.margs[0])
-        self.cqueue = queue.Queue()
+        self.cqueue = queue.Queue(maxsize=tm_nw + tm_overfill)
         self.active_workers = AtomicInc()
         data = (self.cqueue, self.job, self.args.margs, self.active_workers, self.timeout)
         self.tpool = TaskPool(tm_nw, tm_overfill, initializer, worker, data)
